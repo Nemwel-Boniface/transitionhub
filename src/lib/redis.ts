@@ -19,6 +19,8 @@ import path from "path";
 export interface RedisLike {
   get(key: string): Promise<string | null>;
   set(key: string, value: string): Promise<string | null>;
+  /** Atomic "set if not already set" - returns true only for the caller that actually set it. */
+  setNX(key: string, value: string): Promise<boolean>;
   del(...keys: string[]): Promise<number>;
   sadd(key: string, ...members: string[]): Promise<number>;
   srem(key: string, ...members: string[]): Promise<number>;
@@ -82,6 +84,13 @@ class LocalFileRedis implements RedisLike {
     return "OK";
   }
 
+  async setNX(key: string, value: string) {
+    if (key in this.store.strings) return false;
+    this.store.strings[key] = value;
+    this.save();
+    return true;
+  }
+
   async del(...keys: string[]) {
     let count = 0;
     for (const key of keys) {
@@ -142,6 +151,10 @@ class UpstashAdapter implements RedisLike {
   }
   set(key: string, value: string) {
     return this.client.set(key, value) as Promise<string | null>;
+  }
+  async setNX(key: string, value: string) {
+    const result = await this.client.set(key, value, { nx: true });
+    return result !== null;
   }
   del(...keys: string[]) {
     return this.client.del(...(keys as [string, ...string[]]));

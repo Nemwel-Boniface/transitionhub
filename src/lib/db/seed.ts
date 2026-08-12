@@ -178,8 +178,12 @@ const SEED_LEADS: {
 
 export async function seedIfEmpty(): Promise<{ faqsSeeded: number; leadsSeeded: number }> {
   const db = getDb();
-  const alreadySeeded = await db.get("th:seeded");
-  if (alreadySeeded) return { faqsSeeded: 0, leadsSeeded: 0 };
+  // Atomic "claim the seed job" - concurrent cold starts (common right after
+  // a deploy) will all call this around the same time, but only the one
+  // that actually wins this setNX proceeds. Everyone else sees false and
+  // returns immediately, which is what prevents duplicate seed data.
+  const claimed = await db.setNX("th:seeded", new Date().toISOString());
+  if (!claimed) return { faqsSeeded: 0, leadsSeeded: 0 };
 
   const existingFaqs = await listFaqs();
   const existingLeads = await listTeamLeads();
@@ -201,6 +205,5 @@ export async function seedIfEmpty(): Promise<{ faqsSeeded: number; leadsSeeded: 
     }
   }
 
-  await db.set("th:seeded", new Date().toISOString());
   return { faqsSeeded, leadsSeeded };
 }
