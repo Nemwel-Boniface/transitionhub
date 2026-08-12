@@ -169,7 +169,13 @@ export function getDb(): RedisLike {
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
   if (url && token) {
-    instance = new UpstashAdapter(new Redis({ url, token }));
+    // Every value we store is already a JSON string produced by our own
+    // JSON.stringify() calls (see leads.ts/faqs.ts/etc), which then call
+    // JSON.parse() themselves on read. The Upstash client's default
+    // auto-deserialization would parse it for us first, handing back an
+    // object instead of a string and making that second JSON.parse() throw
+    // ("[object Object]" is not valid JSON) - so it's disabled here.
+    instance = new UpstashAdapter(new Redis({ url, token, automaticDeserialization: false }));
     console.log("[TransitionHub] Using Upstash Redis.");
   } else {
     instance = new LocalFileRedis();
