@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+  /* TransitionHub brand tokens - lifted directly from the ExCo-approved
+     "One Team. Two Brands." deck so the app reads as an extension of that
+     material, not a new visual identity. */
+  --th-teal: #2a797d;
+  --th-teal-dark: #205f62;
+  --th-cream: #f4f3ef;
+  --th-cream-alt: #eff4f3;
+  --th-charcoal: #1b1b18;
+  --th-gray: #6b6b66;
+  --th-gray-light: #9a9a94;
+  --th-border: #d8d8d2;
+  --th-orange: #fe5f1d;
+  --th-white: #ffffff;
+
+  --background: var(--th-cream);
+  --foreground: var(--th-charcoal);
+  --th-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-teal: var(--th-teal);
+  --color-teal-dark: var(--th-teal-dark);
+  --color-cream: var(--th-cream);
+  --color-cream-alt: var(--th-cream-alt);
+  --color-charcoal: var(--th-charcoal);
+  --color-graytxt: var(--th-gray);
+  --color-graylight: var(--th-gray-light);
+  --color-borderc: var(--th-border);
+  --color-orange: var(--th-orange);
+
+  --font-sans: var(--th-font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--th-font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+/* Two-brand motif: a thin teal-to-orange split rule used as a recurring
+   divider instead of segregating the two brands into separate palettes. */
+.brand-split-rule {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    var(--th-teal) 0%,
+    var(--th-teal) 50%,
+    var(--th-orange) 50%,
+    var(--th-orange) 100%
+  );
+  border-radius: 999px;
+}
+
+.card {
+  background: var(--th-white);
+  border: 1px solid var(--th-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(27, 27, 24, 0.04), 0 4px 16px rgba(27, 27, 24, 0.04);
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--th-teal);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--th-teal);
+  color: var(--th-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
