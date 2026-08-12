@@ -35,12 +35,22 @@ class LocalFileRedis implements RedisLike {
 
   constructor() {
     const dataDir = path.join(process.cwd(), ".data");
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
     this.filePath = path.join(dataDir, "local-db.json");
     this.store = { strings: {}, sets: {} };
-    this.load();
+    try {
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+      }
+      this.load();
+    } catch (err) {
+      // Read-only filesystem (e.g. deployed serverless without Upstash
+      // credentials configured) - degrade to an in-memory, non-persistent
+      // store instead of crashing every request.
+      console.error(
+        "[TransitionHub] Local file store unavailable (read-only filesystem?) - falling back to in-memory storage that will not persist. Set UPSTASH_REDIS_REST_URL/TOKEN for production.",
+        err
+      );
+    }
   }
 
   private load() {
