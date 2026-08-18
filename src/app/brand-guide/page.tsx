@@ -1,5 +1,6 @@
 import { BrandSplitRule } from "@/components/BrandSplit";
 import { SignatureGenerator } from "@/components/SignatureGenerator";
+import { DocumentTemplates } from "@/components/DocumentTemplates";
 
 export default function BrandGuidePage() {
   return (
@@ -30,13 +31,22 @@ export default function BrandGuidePage() {
       <section className="mt-6">
         <h2 className="font-semibold text-lg text-charcoal">Build your signature</h2>
         <p className="mt-2 text-sm text-graytxt">
-          Approved by ExCo, 3 August 2026. Fill in your details below - both previews update as
-          you type, and each has its own copy button so you never have to retype the format
-          by hand.
+          Approved by ExCo, 3 August 2026. Fill in your details below - the preview updates as
+          you type, both brand websites and logos are already included, and one copy button
+          gives you a ready-to-paste signature with your name in bold.
         </p>
         <div className="mt-4">
           <SignatureGenerator />
         </div>
+      </section>
+
+      <section className="mt-6">
+        <h2 className="font-semibold text-lg text-charcoal">Document templates</h2>
+        <p className="mt-2 text-sm text-graytxt">
+          Ready-made Word documents by platform. Ginja.ai is the newer of the two, so it's first
+          up - more templates will land here, for both platforms, over time.
+        </p>
+        <DocumentTemplates />
       </section>
 
       <section className="mt-6 card p-6">
