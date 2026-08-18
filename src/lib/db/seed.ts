@@ -105,7 +105,7 @@ const SEED_FAQS: { question: string; answer: string; category: string; tags: str
     category: "Branding & Communication",
     question: "What should my email signature look like during the transition?",
     answer:
-      "For a transition period, signatures can reinforce continuity through co-branding, for example:\n\n\"Jane Doe - Service Provider Relationship Manager, Ginja.ai - Technology partner to Eden Care\"\n\nor simply \"Ginja.ai - the technology business of Eden Care.\" This helps bridge recognition until the Ginja.ai brand becomes familiar on its own. See the approved signature format shared by ExCo (3 August 2026).",
+      "For a transition period, signatures can reinforce continuity through co-branding, for example:\n\n\"Jane Doe - Service Provider Relationship Manager, Ginja.ai - Technology partner to Eden Care\"\n\nor simply \"Ginja.ai - the technology business of Eden Care.\" This helps bridge recognition until the Ginja.ai brand becomes familiar on its own.",
     tags: ["signature", "co-branding", "playbook"],
   },
 ];
